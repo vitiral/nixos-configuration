@@ -43,7 +43,7 @@ let
     rxvt_unicode_with-plugins
     scrot
     tmux
-    vim
+    vim_configurable
     unzip
     wget
     xcape
@@ -101,33 +101,6 @@ in {
     ) )
     ++ terminalApps
     ++ desktopApps;
-  
-  programs.zsh = {
-    enable = true;
-    shellAliases = {
-      v = "vim";
-      g = "git";
-    };
-    enableCompletion = true;
-    interactiveShellInit = ''
-      source ${antigen}/antigen.zsh
-
-      antigen use oh-my-zsh
-      antigen theme robbyrussell
-      antigen bundle pip
-      antigen bundle zsh-users/zsh-syntax-highlighting
-      antigen bundle sharat87/zsh-vim-mode
-      antigen bundle tarruda/zsh-autosuggestions
-      antigen bundle history-substring-search
-
-      # Tell antigen that you're done
-      antigen apply
-
-      #bindkey "^F" vi-cmd-mode
-      bindkey "^O" history-substring-search-up
-    '';
-  };
-
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -167,7 +140,6 @@ in {
       # Enable the i3 window manager
       windowManager.i3 = {
         enable = true;
-        configFile = ./config/i3/config;
       };
       windowManager.default = "i3";
       
@@ -193,16 +165,14 @@ in {
     isNormalUser = true;
     group="users";
     extraGroups = [
-      "wheel" 
-      # "disk" 
+      "wheel" "systemd-journal"
+      "disk" "networkmanager" 
       "audio" "video"
-      # "networkmanager" 
-      # "systemd-journal"
     ];
     # createHome = true;
     uid = 1000;
     # home = /home/garrett;
-    # shell = /run/current-system/sw/bin/zsh;
+    shell = /run/current-system/sw/bin/zsh;
   };
   # users.mutableUsers = false;  # cool, but need to use hashedPassword option
   security.sudo.wheelNeedsPassword = false;
