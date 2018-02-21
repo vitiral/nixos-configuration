@@ -12,6 +12,12 @@ let
     inherit (pythonPackages) alot py3status;
   };
 
+  antigen = pkgs.fetchgit {
+    url = "https://github.com/zsh-users/antigen";
+    rev = "c91f77c8e9d96da43ae6dcaca4f2c823532302dc";
+    sha256 = "0z8a5d3fymzywc9q7vzlfd1g9hfbhys9jha3qrr12rcz7fcmajd0";
+  };
+
   terminalApps = with pkgs; [
     # pulseaudio
     acpi
@@ -35,6 +41,7 @@ let
     pythonFull
     python2Full
     rxvt_unicode_with-plugins
+    scrot
     tmux
     vim
     unzip
@@ -63,14 +70,6 @@ in {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  # boot.loader.grub.enable = true;
-  # boot.loader.grub.version = 2;
-  # boot.loader.grub.device = "/dev/sda";
-  # boot.loader.grub.extraEntries = ''
-  #   menuentry "Windows 7" {
-  #     chainloader (hd0,1)+1
-  #   }
-  # '';
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -102,6 +101,32 @@ in {
     ) )
     ++ terminalApps
     ++ desktopApps;
+  
+  programs.zsh = {
+    enable = true;
+    shellAliases = {
+      v = "vim";
+      g = "git";
+    };
+    enableCompletion = true;
+    interactiveShellInit = ''
+      source ${antigen}/antigen.zsh
+
+      antigen use oh-my-zsh
+      antigen theme robbyrussell
+      antigen bundle pip
+      antigen bundle zsh-users/zsh-syntax-highlighting
+      antigen bundle sharat87/zsh-vim-mode
+      antigen bundle tarruda/zsh-autosuggestions
+      antigen bundle history-substring-search
+
+      # Tell antigen that you're done
+      antigen apply
+
+      #bindkey "^F" vi-cmd-mode
+      bindkey "^O" history-substring-search-up
+    '';
+  };
 
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -140,7 +165,10 @@ in {
       libinput.enable = true;
 
       # Enable the i3 window manager
-      windowManager.i3.enable = true;
+      windowManager.i3 = {
+        enable = true;
+        configFile = ./config/i3/config;
+      };
       windowManager.default = "i3";
       
       displayManager.lightdm.enable = true;
@@ -160,56 +188,23 @@ in {
     serviceConfig.ExecStart = "${pkgs.xcape}/bin/xcape";
   };
 
-  # services.xserver.displayManager.sessionCommands = ''
-  #   xrdb "${pkgs.writeText "xrdb.conf" ''
-  #     ! urxvt*font: xft:Inconsolata\ Nerd\ Font:style=Medium:size=13
-  #     
-  #     URxvt*loginShell: false
-  #     URxvt.letterSpace: 0
-  #     URxvt*background: black
-  #     URxvt*foreground: grey
-  #     URxvt*color4: CornflowerBlue
-  #     URxvt*color12: pink
-  #     
-  #     ! This is one way to remove the ctrl+i == TAB feature, however it has to be integrated
-  #     ! with vim (which somehow escapes it)
-  #     ! URxvt.keysym.C-i: \033[33~
-  #     
-  #     URxvt.perl-ext-common: default,clipboard,keyboard-select
-  #     
-  #     ! copy paste
-  #     URxvt.iso14755: false
-  #     URxvt.clipboard.copycmd: xsel -ib
-  #     URxvt.clipboard.pastecmd: xsel -ob
-  #     !! mac like copy/paste with Alt
-  #     URxvt.keysym.M-c:     perl:clipboard:copy
-  #     URxvt.keysym.M-v:     perl:clipboard:paste
-  #     ! standard termial copy/paste
-  #     URxvt.keysym.S-C-C:   perl:clipboard:copy
-  #     URxvt.keysym.S-C-V:   perl:clipboard:paste
-  #     
-  #     ! Text selection (visual mode)
-  #     URxvt.keysym.M-S-V: perl:keyboard-select:activate
-  #   ''}"
-  # '';
-
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.garrett = {
-    name="garrett";
+  users.extraUsers."garrett" = {
+    isNormalUser = true;
     group="users";
     extraGroups = [
       "wheel" 
       # "disk" 
-      # "audio" "video"
+      "audio" "video"
       # "networkmanager" 
       # "systemd-journal"
     ];
     # createHome = true;
     uid = 1000;
     # home = /home/garrett;
-    shell = /run/current-system/sw/bin/zsh;
+    # shell = /run/current-system/sw/bin/zsh;
   };
+  # users.mutableUsers = false;  # cool, but need to use hashedPassword option
   security.sudo.wheelNeedsPassword = false;
 
   # This value determines the NixOS release with which your system is to be
