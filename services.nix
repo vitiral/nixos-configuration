@@ -69,4 +69,14 @@ in {
     serviceConfig.RestartSec = 2;
     serviceConfig.ExecStart = "${pkgs.xcape}/bin/xcape -e 'Caps_Lock=Escape'";
   };
+
+  # TODO: this doesn't seem to work :(
+  systemd.user.services."keycode_menu_super" = {
+    enable = true;
+    description = "Remap the Menu key to Super_R for i3";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "simple";
+    serviceConfig.Restart = "no";
+    serviceConfig.ExecStart = "xmodmap -e 'keycode 135 = Super_R' && xset -r 135";
+  };
 }

@@ -16,4 +16,8 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Use TLP for power management
+  powerManagement.cpuFreqGovernor = pkgs.lib.mkForce null;
+  services.tlp.enable = true;
 }
