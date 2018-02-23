@@ -3,21 +3,6 @@
 
 { config, pkgs, hardware, ... }:
 let
-  setxkbmapPackages = with pkgs.xorg; {
-    inherit xinput xset setxkbmap xmodmap; };
-
-  i3Packages = with pkgs; {
-    inherit i3-gaps i3status i3lock-fancy;
-    inherit (xorg) xrandr xbacklight xset;
-    inherit (pythonPackages) alot py3status;
-  };
-
-  antigen = pkgs.fetchgit {
-    url = "https://github.com/zsh-users/antigen";
-    rev = "c91f77c8e9d96da43ae6dcaca4f2c823532302dc";
-    sha256 = "0z8a5d3fymzywc9q7vzlfd1g9hfbhys9jha3qrr12rcz7fcmajd0";
-  };
-
   terminalApps = with pkgs; [
     # pulseaudio
     acpi
@@ -32,22 +17,15 @@ let
     nix-index
     nix-repl
     nix-zsh-completions
-    networkmanagerapplet
-    networkmanager_openconnect
     oh-my-zsh
-    openconnect
-    openssl
     psmisc
     pythonFull
     python2Full
     rxvt_unicode_with-plugins
-    scrot
     tmux
     vim_configurable
     unzip
     wget
-    xcape
-    xsel
     zsh
   ];
 
@@ -61,8 +39,9 @@ let
 in {
   # ---- HARDWARE ----
   imports =
-    [ # Include the results of the hardware scan.
+    [
       /etc/nixos/hardware-configuration.nix
+      ./services.nix
     ];
   hardware.pulseaudio.enable = true;
   hardware.pulseaudio.support32Bit = true;
@@ -95,11 +74,7 @@ in {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; 
-    ( builtins.attrValues (
-      i3Packages // 
-      setxkbmapPackages 
-    ) )
-    ++ terminalApps
+    terminalApps
     ++ desktopApps;
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -122,43 +97,6 @@ in {
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
 
-
-  # ---- SERVICES ----
-  services = {
-    nixosManual.showManual = true;
-    openssh.enable = true; 	# Enable the OpenSSH daemon.
-    printing.enable = true; 	# Enable CUPS to print documents.
-    dbus.enable = true;
-    upower.enable = true;
-    acpid.enable = true;
-    xserver = {
-      enable = true;
-      layout = "us";
-      # Enable touchpad support.
-      libinput.enable = true;
-
-      # Enable the i3 window manager
-      windowManager.i3 = {
-        enable = true;
-      };
-      windowManager.default = "i3";
-      
-      displayManager.lightdm.enable = true;
-
-      # xkbOptions = "eurosign:e";
-      # xkbOptions = "ctrl:nocaps";
-    };
-  };
-
-  systemd.user.services."xcape" = {
-    enable = true;
-    description = "xcape to use CTRL as ESC when pressed alone";
-    wantedBy = [ "default.target" ];
-    serviceConfig.Type = "forking";
-    serviceConfig.Restart = "always";
-    serviceConfig.RestartSec = 2;
-    serviceConfig.ExecStart = "${pkgs.xcape}/bin/xcape";
-  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers."garrett" = {
