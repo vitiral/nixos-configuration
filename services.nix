@@ -42,6 +42,8 @@ in {
     xserver = {
       enable = true;
       layout = "us";
+      xkbOptions = "caps:ctrl_modifier";
+
       # Enable touchpad support.
       libinput.enable = true;
 
@@ -54,20 +56,7 @@ in {
 
       displayManager = {
         lightdm.enable = true;
-        sessionCommands = ''
-          setxkbmap -option 'caps:ctrl_modifier
-          # FIXME: this would be nice
-          # # run ssh-agent
-          # killall ssh-agent
-          # ssh-agent
-          # ssh-add ~/.ssh/id_rsa
-          # ssh-add ~/.ssh/id_dsa
-          # exec i3 -V >> ~/.i3/logs 2>&1
-        '';
       };
-      
-      # xkbOptions = "eurosign:e";
-      # xkbOptions = "ctrl:nocaps";
     };
   };
 
