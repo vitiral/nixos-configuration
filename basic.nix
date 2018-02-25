@@ -12,6 +12,7 @@ let
     firefox
     libreoffice
     vlc
+    blender
   ];
 in {
   # List packages installed in system profile. To search by name, run:

@@ -16,9 +16,10 @@ let
     networkmanager_openconnect
     openconnect
     openssl
-    scrot
-    xcape
-    xsel
+    scrot     # screen shot
+    xcape     # override capslock
+    xsel      # override capslock
+    pamixer   # audio control
   ];
 
 in {

@@ -1,6 +1,7 @@
 { config, pkgs, hardware, ... }:
 let
   terminalApps = with pkgs; [
+    feh
     # fzf
     gitAndTools.gitFull
     gitAndTools.hub
@@ -18,16 +19,17 @@ let
     python2Full
     rxvt_unicode_with-plugins
     tmux
+    tree
     vim_configurable
     unzip
     wget
     zsh
   ];
 
-  
   videoPkgs = with pkgs; [
-    pciutils # `lspci` to list hardware
     glxinfo
+    lshw     # `lshw -c video` to list video drivers
+    pciutils # `lspci` to list hardware
   ];
   
   rustPkgs = with pkgs; [
