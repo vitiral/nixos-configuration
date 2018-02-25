@@ -20,4 +20,10 @@
   # Use TLP for power management
   powerManagement.cpuFreqGovernor = pkgs.lib.mkForce null;
   services.tlp.enable = true;
+
+  # Misc Configuration
+  environment.systemPackages = with pkgs; [ 
+    blueman # bluetooth applet
+  ];
+  hardware.bluetooth.enable = true;
 }

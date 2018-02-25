@@ -19,8 +19,11 @@ in {
   environment.systemPackages = with pkgs;
     desktopApps ++ systemApps;
 
-  hardware.pulseaudio.enable = true;
-  hardware.pulseaudio.support32Bit = true;
+  hardware.pulseaudio = {
+    enable = true;
+    package = pkgs.pulseaudioFull;
+    support32Bit = true;
+  };
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -57,6 +60,7 @@ in {
     group = "users";
     extraGroups = [
       "wheel" "systemd-journal"
+    #  "nixbld"
       "disk" "networkmanager"
       "audio" "video"
     ];

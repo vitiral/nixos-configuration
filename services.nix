@@ -60,6 +60,21 @@ in {
     };
   };
 
+  # TODO: this works except the icon is always a red error icon
+  # systemd.user.services."network-manager-applet" = {
+  #   enable = true;
+  #   description = "Start the network manager applet";
+  #   wantedBy = [ "default.target" ];
+  #   serviceConfig.Type = "forking";
+  #   serviceConfig.Restart = "always";
+  #   serviceConfig.RestartSec = 2;
+  #   serviceConfig.ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet";
+  #   environment = {
+  #      # this was a failed _attempt_ to fix the icon issue to no avail
+  #      XDG_DATA_DIRS = "${pkgs.networkmanagerapplet}/bin/nm-applet/share";
+  #   };
+  # };
+
   systemd.user.services."xcape" = {
     enable = true;
     description = "xcape to use CTRL as ESC when pressed alone";
@@ -71,12 +86,15 @@ in {
   };
 
   # TODO: this doesn't seem to work :(
-  systemd.user.services."keycode_menu_super" = {
-    enable = true;
-    description = "Remap the Menu key to Super_R for i3";
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig.Type = "simple";
-    serviceConfig.Restart = "no";
-    serviceConfig.ExecStart = "xmodmap -e 'keycode 135 = Super_R' && xset -r 135";
-  };
+  # systemd.user.services."keycode-menu-super" = {
+  #   enable = true;
+  #   description = "Remap the Menu key to Super_R for i3";
+  #   wantedBy = [ "default.target" ];
+  #   serviceConfig.Type = "forking";
+  #   serviceConfig.Restart = "no";
+  #   serviceConfig.ExecStart = ''
+  #     /run/current-system/sw/bin/xmodmap -e 'keycode 135 = Super_R' \
+  #       && /run/current-system/sw/bin/xset -r 137
+  #   '';
+  # };
 }

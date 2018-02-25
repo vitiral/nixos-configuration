@@ -8,6 +8,7 @@ let
     iotop
     jq
     libnotify
+    nix
     nix-index
     nix-repl
     nix-zsh-completions
@@ -22,9 +23,22 @@ let
     wget
     zsh
   ];
+
+  
+  videoPkgs = with pkgs; [
+    pciutils # `lspci` to list hardware
+    glxinfo
+  ];
+  
+  rustPkgs = with pkgs; [
+    rustup
+    carnix
+  ];
 in {
   environment.systemPackages = with pkgs;
-    terminalApps;
+    terminalApps
+    # ++ rustPkgs
+    ++ videoPkgs;
 
   fonts.fonts = with pkgs; [
     nerdfonts
@@ -32,4 +46,5 @@ in {
 
   programs.bash.enableCompletion = true;
 
+  nix.package = pkgs.nixUnstable;
 }
