@@ -9,7 +9,7 @@
       ./basic.nix
       ./services.nix
       ./terminal.nix
-      ./steam.nix
+      ./video.nix
     ];
 
   networking.hostName = "garrett-laptop";

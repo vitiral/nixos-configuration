@@ -9,14 +9,17 @@ let
     iotop
     jq
     libnotify
+    mosh
     nix
     nix-index
     nix-repl
     nix-zsh-completions
+    (import ./novault)
     oh-my-zsh
     psmisc
     pythonFull
     python2Full
+    ripgrep
     rxvt_unicode_with-plugins
     tmux
     tree
@@ -33,14 +36,32 @@ let
   ];
   
   rustPkgs = with pkgs; [
+    pkgconfig
+    binutils
+    gcc
+    gnumake
     rustup
+    rustc
+    cargo
+    # TODO(broken): cargo-edit
     carnix
   ];
 in {
   environment.systemPackages = with pkgs;
     terminalApps
-    # ++ rustPkgs
+    ++ rustPkgs
     ++ videoPkgs;
+  
+  environment.variables = {
+    EDITOR = "vim";
+    PKG_CONFIG_PATH = with pkgs; [
+      "${openssl.dev}/lib/pkgconfig"
+    ];
+    LIBRARY_PATH = with pkgs; [
+      "${xorg.libX11}/lib"
+      "${xorg.libXtst}/lib"
+    ];
+  };
 
   fonts.fonts = with pkgs; [
     nerdfonts

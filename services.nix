@@ -20,6 +20,8 @@ let
     xcape     # override capslock
     xsel      # override capslock
     pamixer   # audio control
+    i3lock-fancy
+    xautolock
   ];
 
 in {
