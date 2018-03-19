@@ -1,6 +1,7 @@
 { config, pkgs, hardware, ... }:
 let
   terminalApps = with pkgs; [
+    alacritty
     feh
     # fzf
     gitAndTools.gitFull
@@ -14,8 +15,7 @@ let
     nix-index
     nix-repl
     nix-zsh-completions
-    (import ./novault)
-    oh-my-zsh
+    (import ./novault.pkg)
     psmisc
     pythonFull
     python2Full
@@ -35,6 +35,7 @@ let
     pciutils # `lspci` to list hardware
   ];
   
+  # https://github.com/koute/cargo-web/issues/51
   rustPkgs = with pkgs; [
     pkgconfig
     binutils
@@ -45,11 +46,18 @@ let
     cargo
     # TODO(broken): cargo-edit
     carnix
+    emscripten
+  ];
+
+  nodePkgs = with pkgs; [
+    nodejs
+    npm2nix
   ];
 in {
   environment.systemPackages = with pkgs;
     terminalApps
     ++ rustPkgs
+    ++ nodePkgs
     ++ videoPkgs;
   
   environment.variables = {
@@ -63,9 +71,17 @@ in {
     ];
   };
 
-  fonts.fonts = with pkgs; [
-    nerdfonts
-  ];
+  fonts = {
+    enableCoreFonts = true;
+    enableFontDir = true;
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      nerdfonts
+      powerline-fonts
+      unifont
+      source-code-pro
+    ];
+  };
 
   programs.bash.enableCompletion = true;
 

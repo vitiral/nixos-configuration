@@ -34,7 +34,7 @@ in {
     ) )
     ++ xorgPackages;
 
-  # ---- SERVICES ----
+  # ------ GENERAL ------
   services = {
     nixosManual.showManual = true;
     openssh.enable = true; 	# Enable the OpenSSH daemon.
@@ -42,6 +42,10 @@ in {
     dbus.enable = true;
     upower.enable = true;
     acpid.enable = true;
+  };
+
+  # ------ XORG / DISPLAY / INTERFACE ------
+  services = {
     xserver = {
       enable = true;
       layout = "us";
@@ -62,6 +66,7 @@ in {
       };
     };
   };
+
 
   # TODO: this works except the icon is always a red error icon
   # systemd.user.services."network-manager-applet" = {
@@ -100,4 +105,9 @@ in {
   #       && /run/current-system/sw/bin/xset -r 137
   #   '';
   # };
+
+  # ------ DOCKER ------
+  virtualisation.docker.enable = true;
+  users.users."garrett".extraGroups = [ "docker" ];
+
 }
