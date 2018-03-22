@@ -2,6 +2,7 @@
 let
   terminalApps = with pkgs; [
     alacritty
+    # cmus
     feh
     # fzf
     gitAndTools.gitFull
@@ -15,12 +16,13 @@ let
     nix-index
     nix-repl
     nix-zsh-completions
-    (import ./novault.pkg)
+    (import ./novault)
     psmisc
     pythonFull
     python2Full
     ripgrep
     rxvt_unicode_with-plugins
+    tokei
     tmux
     tree
     vim_configurable

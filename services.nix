@@ -2,8 +2,13 @@
 
 { config, pkgs, hardware, ... }:
 let
+  dockerPackages = with pkgs; [
+    docker_compose
+  ];
+
   setxkbmapPackages = with pkgs.xorg; {
-    inherit xinput xset setxkbmap xmodmap; };
+    inherit xinput xset setxkbmap xmodmap; 
+  };
 
   i3Packages = with pkgs; {
     inherit i3-gaps i3status i3lock-fancy;
@@ -32,7 +37,8 @@ in {
       i3Packages // 
       setxkbmapPackages 
     ) )
-    ++ xorgPackages;
+    ++ xorgPackages
+    ++ dockerPackages;
 
   # ------ GENERAL ------
   services = {
@@ -42,10 +48,8 @@ in {
     dbus.enable = true;
     upower.enable = true;
     acpid.enable = true;
-  };
 
-  # ------ XORG / DISPLAY / INTERFACE ------
-  services = {
+    # ------ XORG / DISPLAY / INTERFACE ------
     xserver = {
       enable = true;
       layout = "us";
