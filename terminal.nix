@@ -18,11 +18,6 @@ let
     nix-zsh-completions
     (import ./novault)
     psmisc
-    python36Full
-    python36Packages.ipython
-    python36Packages.pip
-    python36Packages.virtualenv
-    python36Packages.virtualenvwrapper
     ripgrep
     rxvt_unicode_with-plugins
     tokei
@@ -32,6 +27,43 @@ let
     unzip
     wget
     zsh
+  ];
+
+  pythonPkgs = with pkgs; [
+    # Dev / CI
+    mypy
+    python36Packages.virtualenv
+    python36Packages.virtualenvwrapper
+    python36Packages.pylint
+    python36Packages.autopep8
+
+    # python2
+    (python27.withPackages(ps: with ps; [
+      ipython
+      pip
+      pyyaml 
+      pytoml
+      requests 
+      six
+      ipdb
+    ]))
+
+    # python3
+    (python36.withPackages(ps: with ps; [
+      ipython
+      pip
+      pyyaml 
+      pytoml
+      requests 
+      six
+      ipdb
+
+      # Scientific / Numerical
+      numpy
+      pandas
+      scipy
+      sqlalchemy
+    ]))
   ];
 
   videoPkgs = with pkgs; [
@@ -63,6 +95,7 @@ in {
     terminalApps
     ++ rustPkgs
     ++ nodePkgs
+    ++ pythonPkgs
     ++ videoPkgs;
   
   environment.variables = {
