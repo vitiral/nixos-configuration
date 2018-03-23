@@ -2,7 +2,7 @@
 let
   terminalApps = with pkgs; [
     alacritty
-    # cmus
+    cmus
     feh
     # fzf
     gitAndTools.gitFull
@@ -18,8 +18,11 @@ let
     nix-zsh-completions
     (import ./novault)
     psmisc
-    pythonFull
-    python2Full
+    python36Full
+    python36Packages.ipython
+    python36Packages.pip
+    python36Packages.virtualenv
+    python36Packages.virtualenvwrapper
     ripgrep
     rxvt_unicode_with-plugins
     tokei
@@ -71,6 +74,7 @@ in {
       "${xorg.libX11}/lib"
       "${xorg.libXtst}/lib"
     ];
+    TERMINAL = "alacritty";
   };
 
   fonts = {

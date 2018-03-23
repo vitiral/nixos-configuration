@@ -2,10 +2,13 @@
 
 { config, pkgs, hardware, ... }:
 let
-  dockerPackages = with pkgs; [
+  # ----- VIRTUALIZATION -----
+  virtPackages = with pkgs; [
     docker_compose
+    virtualboxHardened
   ];
 
+  # ----- XORG / WINDOW MANAGER ------
   setxkbmapPackages = with pkgs.xorg; {
     inherit xinput xset setxkbmap xmodmap; 
   };
@@ -38,7 +41,7 @@ in {
       setxkbmapPackages 
     ) )
     ++ xorgPackages
-    ++ dockerPackages;
+    ++ virtPackages;
 
   # ------ GENERAL ------
   services = {
@@ -110,8 +113,10 @@ in {
   #   '';
   # };
 
-  # ------ DOCKER ------
+  # ------ VIRTUALIZATION / DOCKER ------
   virtualisation.docker.enable = true;
-  users.users."garrett".extraGroups = [ "docker" ];
-
+  users.users."garrett".extraGroups = [ "docker" "vboxusers" ];
+  services.virtualbox.host = { enable = true; enableHardening = false; };
+  # Need to comply with some bullshit:
+  # nixpkgs.config.virtualbox.enableExtensionPack = true;
 }
