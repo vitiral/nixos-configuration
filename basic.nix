@@ -61,14 +61,13 @@ in {
     group = "users";
     extraGroups = [
       "wheel" "systemd-journal"
-    #  "nixbld"
       "disk" "networkmanager"
       "audio" "video"
     ];
-    # createHome = true;
     uid = 1000;
-    # home = /home/garrett;
-    shell = /run/current-system/sw/bin/zsh;
+    # createHome = true;
+    home = /home/garrett;
+    # shell = /run/current-system/sw/bin/zsh;
   };
 
   # users.mutableUsers = false;  # cool, but need to use hashedPassword option

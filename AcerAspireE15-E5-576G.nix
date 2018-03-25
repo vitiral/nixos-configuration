@@ -23,8 +23,9 @@
   services.tlp.enable = true;
   
   # Misc Configuration
-  environment.systemPackages = with pkgs; [ 
-    blueman # bluetooth applet
-  ];
-  hardware.bluetooth.enable = true;
+  # environment.systemPackages = with pkgs; [ 
+  #   blueman # bluetooth applet
+  # ];
+  # hardware.bluetooth.enable = true;
+  hardware.bluetooth.enable = false;
 }

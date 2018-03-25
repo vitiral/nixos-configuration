@@ -16,7 +16,7 @@ let
     nix-index
     nix-repl
     nix-zsh-completions
-    (import ./novault)
+    # (import ./novault)
     psmisc
     ripgrep
     rxvt_unicode_with-plugins
