@@ -3,6 +3,7 @@
 let
   systemApps = with pkgs; [
     # pulseaudio
+    alsaUtils
     acpi
     lm_sensors
   ];
@@ -43,6 +44,7 @@ in {
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
+  programs.zsh.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
 
   networking.networkmanager.enable = true;  # Enables wireless support via network manager
@@ -66,8 +68,8 @@ in {
     ];
     uid = 1000;
     # createHome = true;
-    home = /home/garrett;
-    # shell = /run/current-system/sw/bin/zsh;
+    # home = /home/garrett;
+    shell = pkgs.zsh;
   };
 
   # users.mutableUsers = false;  # cool, but need to use hashedPassword option
