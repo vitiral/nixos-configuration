@@ -58,7 +58,7 @@ in {
       layout = "us";
       xkbOptions = "caps:ctrl_modifier";
 
-      # Enable touchpad support.
+      # Enable input devices (including keyboard)
       libinput.enable = true;
 
       windowManager = {
