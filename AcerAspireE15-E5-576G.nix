@@ -28,5 +28,5 @@
   # ];
   # hardware.bluetooth.enable = true;
   hardware.bluetooth.enable = false;
-  sound.enable = True;
+  sound.enable = true;
 }
