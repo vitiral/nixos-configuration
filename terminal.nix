@@ -73,6 +73,12 @@ let
     lshw     # `lshw -c video` to list video drivers
     pciutils # `lspci` to list hardware
   ];
+
+  webPkgs = with pkgs; [
+    geckodriver
+    chromedriver
+    emscripten
+  ];
   
   # https://github.com/koute/cargo-web/issues/51
   rustPkgs = with pkgs; [
@@ -85,7 +91,6 @@ let
     cargo
     # TODO(broken): cargo-edit
     carnix
-    emscripten
   ];
 
   nodePkgs = with pkgs; [
@@ -98,6 +103,7 @@ in {
     ++ rustPkgs
     ++ nodePkgs
     ++ pythonPkgs
+    ++ webPkgs
     ++ videoPkgs;
   
   environment.variables = {
