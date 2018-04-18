@@ -19,6 +19,7 @@ let
     nix-zsh-completions
     (import ./novault)
     nvi  # berkley vi editor
+    # osquery
     psmisc
     ripgrep
     rxvt_unicode_with-plugins
