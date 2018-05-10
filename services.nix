@@ -51,6 +51,10 @@ in {
     dbus.enable = true;
     upower.enable = true;
     acpid.enable = true;
+  
+    # maybe necessaary for blueman/bluetooth?
+    gnome3.at-spi2-core.enable = true;
+    dbus.packages = with pkgs; [ gnome3.dconf ];
 
     # ------ XORG / DISPLAY / INTERFACE ------
     xserver = {
