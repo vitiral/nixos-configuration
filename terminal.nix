@@ -34,38 +34,38 @@ let
 
   pythonPkgs = with pkgs; [
     # Dev / CI
-    mypy
+    # mypy
     python36Packages.virtualenv
     python36Packages.virtualenvwrapper
-    python36Packages.pylint
-    python36Packages.autopep8
+    # python36Packages.pylint
+    # python36Packages.autopep8
 
     # python2
     (python27.withPackages(ps: with ps; [
-      ipython
       pip
-      pyyaml 
-      pytoml
-      requests 
-      six
-      ipdb
+      # ipython
+      # pyyaml 
+      # pytoml
+      # requests 
+      # six
+      # ipdb
     ]))
 
     # python3
     (python36.withPackages(ps: with ps; [
-      ipython
       pip
-      pyyaml 
-      pytoml
-      requests 
-      six
-      ipdb
+      # ipython
+      # pyyaml 
+      # pytoml
+      # requests 
+      # six
+      # ipdb
 
       # Scientific / Numerical
-      numpy
-      pandas
-      scipy
-      sqlalchemy
+      # numpy
+      # pandas
+      # scipy
+      # sqlalchemy
     ]))
   ];
 

@@ -9,6 +9,7 @@ let
   ];
 
   desktopApps = with pkgs; [
+    apvlv
     chromium
     firefox
     libreoffice
@@ -31,6 +32,7 @@ in {
   nixpkgs.config = {
     allowUnfree = true;
     allowUnfreeRedistributable = true;
+    firefox.icedtea = true;
   };
 
   # Select internationalisation properties.
