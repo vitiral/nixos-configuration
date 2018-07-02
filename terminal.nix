@@ -69,6 +69,10 @@ let
     ]))
   ];
 
+  javaPkgs = with pkgs; [
+    openjdk
+  ];
+
   videoPkgs = with pkgs; [
     glxinfo
     lshw     # `lshw -c video` to list video drivers
@@ -83,15 +87,20 @@ let
   
   # https://github.com/koute/cargo-web/issues/51
   rustPkgs = with pkgs; [
-    pkgconfig
-    binutils
-    gcc
-    gnumake
     rustup
     rustc
     cargo
     # TODO(broken): cargo-edit
     carnix
+  ];
+
+  cPkgs = with pkgs; [
+    pkgconfig
+    binutils
+    gcc
+    gnumake
+    valgrind
+    clang-tools
   ];
 
   nodePkgs = with pkgs; [
@@ -101,9 +110,11 @@ let
 in {
   environment.systemPackages = with pkgs;
     terminalApps
+    ++ cPkgs
     ++ rustPkgs
     ++ nodePkgs
     ++ pythonPkgs
+    ++ javaPkgs
     ++ webPkgs
     ++ videoPkgs;
   

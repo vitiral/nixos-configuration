@@ -12,6 +12,7 @@ let
     apvlv
     chromium
     firefox
+    gimp
     libreoffice
     vlc
     blender
